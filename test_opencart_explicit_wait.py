@@ -56,3 +56,29 @@ def test_explict_wait_samsung_syncmaster_9():
                                                                                                   'fa-check-circle"]'))
     wait = WebDriverWait(driver, timeout=10)  # Ждём в течении 10 секнд закрытия уведомления о добавлении в корзину
     alert_dissapear = wait.until(EC.invisibility_of_element_located((By.XPATH, "//*[@class='fas fa-check-circle']")))
+
+
+def test_explict_wait_samsung_syncmaster_8():
+    """В этом тесте всплывающее уведомление о добавлении в корзину принудительно не закрывается, поэтому прописан wait
+        на отсутствие уведомления в DOM дереве после 10 секунд (примерно за это время уведомление исчезает)"""
+    driver.get(url)
+    driver.maximize_window()
+    title = driver.title
+    assert title == "Your Store"
+    wait = WebDriverWait(driver, timeout=3)
+    menu_load = wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(),"Components")]')))
+    element_menu_to_hover_over = driver.find_element(By.XPATH, '//a[contains(text(),"Components")]')
+    hover = ActionChains(driver).move_to_element(element_menu_to_hover_over)
+    hover.perform()
+    monitor_in_menu = driver.find_element(By.XPATH, '//a[contains(text(),"Monitors")]')
+    monitor_in_menu.click()
+    title_monitor = driver.title
+    assert title_monitor == "Monitors"
+    sync_master_card = driver.find_element(By.XPATH, '//a[contains(text(),"SyncMaster")]')
+    sync_master_card.click()
+    add_to_cart_button = driver.find_element(By.ID, 'button-cart')
+    add_to_cart_button.click()
+    alert_add_to_cart = WebDriverWait(driver, timeout=3).until(lambda d: d.find_element(By.XPATH, '//*[@class="fas '
+                                                                                                  'fa-check-circle"]'))
+    wait = WebDriverWait(driver, timeout=10)  # Ждём в течении 10 секнд закрытия уведомления о добавлении в корзину
+    alert_dissapear = wait.until(EC.invisibility_of_element_located((By.XPATH, "//*[@class='fas fa-check-circle']")))
