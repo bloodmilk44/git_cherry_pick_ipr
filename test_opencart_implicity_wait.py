@@ -11,7 +11,7 @@ driver.implicitly_wait(10)
 url = 'https://demo.opencart.com/'
 
 
-def test_explict_wait_iphone():
+def test_explict_wait_iphone_2():
     """В этом тесте всплывающее уведомление о добавлении в корзину принудительно закрывается, сразу после закрытия
     проверяется отсутствие элемента уведомления"""
     driver.get(url)
